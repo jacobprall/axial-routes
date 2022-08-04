@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #app-container {
+        background: lightgray;
+        padding: 20px;
+        border-radius: 10px;
+        height: 100px;
+      }
+
+      #result-text {
+        background: white;
+        padding: 12px;
+        border-radius: 10px;
+        line-height: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app-container">
+      <form id="form">
+        <input id="input" placeholder="Enter a number" />
+        <button id="button" type="submit">Submit</button>
+      </form>
+      <div id="result">
+        <p>Result:</p>
+        <p id="result-text"></p>
+      </div>
+    </div>
+    <script>
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
+      const resultText = document.getElementById("result-text");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = input.value;
+        const url = `/api/v1/convert/${encodeURIComponent(value)}`;
+        fetch(url)
+          .then((response) => response.json())
+          .then(({ result }) => {
+            resultText.innerText = result;
+          });
+      });
+    </script>
+  </body>
+</html>
