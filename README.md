@@ -1,0 +1,1 @@
+Coding exercise. Run npm i to install necessary dependencies, npm start to spin up the server, and npm test to run the jest testing suite. Visit http://localhost:3000/convert.html to interact with the converter.
