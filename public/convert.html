@@ -26,6 +26,7 @@
   </head>
   <body>
     <div id="app-container">
+      <div id="server-container">Server Side Converter</div>
       <form id="form">
         <input id="input" placeholder="Enter a number" />
         <button id="button" type="submit">Submit</button>
@@ -33,21 +34,30 @@
       <div id="result">
         <p>Result:</p>
         <p id="result-text"></p>
+        <p id="time-taken"></p>
       </div>
     </div>
+
+    <script>
+      // Client side converter
+    </script>
+
     <script>
       const form = document.getElementById("form");
       const input = document.getElementById("input");
       const resultText = document.getElementById("result-text");
+      const timeTaken = document.getElementById("time-taken");
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         const value = input.value;
         const url = `/api/v1/convert/${encodeURIComponent(value)}`;
+        const time = new Date().getTime();
         fetch(url)
           .then((response) => response.json())
           .then(({ result }) => {
             resultText.innerText = result;
+            timeTaken.innerText = `${new Date().getTime() - time} ms`;
           });
       });
     </script>

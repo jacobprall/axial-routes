@@ -1,34 +1,17 @@
 import Koa from "koa";
-import Router from "koa-router";
-import bodyParser from "koa-bodyparser";
-import json from "koa-json";
-import logger from "koa-logger";
+import { addMiddleware } from "./middleware";
+import { router as HealthRouter } from "./routes/health.routes";
+import { router as ConvertRouter } from "./routes/health.routes";
 import serve from "koa-static";
-import path from "path";
-import convert from "./utils";
 
 const app = new Koa();
-const router = new Router();
-
-router.get("/api/v1/health", async (ctx, next) => {
-  ctx.body = { message: "OK" };
-  await next();
-});
-
-router.get("/api/v1/convert/:number", async (ctx, next) => {
-  const { number } = ctx.params;
-  const result = convert(number);
-  ctx.body = { result };
-  await next();
-});
 
 // Middleware
-app.use(bodyParser());
-app.use(json());
-app.use(logger());
+addMiddleware(app);
 
 // Routes
 app.use(serve("./public"));
-app.use(router.routes()).use(router.allowedMethods());
+app.use(HealthRouter.routes()).use(HealthRouter.allowedMethods());
+app.use(ConvertRouter.routes());
 
 export default app;
